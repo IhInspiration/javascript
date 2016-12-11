@@ -53,4 +53,3 @@ var num1 = Math.floor(Math.random() * 10 + 1);
 var num2 = Math.floor(Math.random() * 9 + 2);
 console.log(num1);
 console.log(num2);
-
