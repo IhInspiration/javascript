@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>元素大小</title>
+</head>
+<body>
+    <div style="position: absolute; top: 100px; left: 50px; width: 500px; height: 300px;">
+        <div id="test" style="position: absolute; top: 5px; left: 10px;">aaaa</div>
+    </div>
+    <script>
+        //获取某个元素在页面上的偏移量
+        function getElementLeft(element){
+            var actualLeft = element.offsetLeft;
+            var current = element.offsetParent;
+
+            while(current !== null){
+                actualLeft += current.offsetLeft;
+                current = current.offsetParent;
+            }
+
+            return actualLeft;
+        }
+
+        var test = document.getElementById("test");
+        console.log(getElementLeft(test));
+
+        //获取元素在页面中相对于视口的位置
+        function getBoundingClientRect(element){
+            var scrollTop = document.documentElement.scrollTop;
+            var scrollLeft = document.documentElement.scrollLeft;
+
+            if(element.getBoundingClientRect){
+                if(typeof arguments.callee.offset != "number"){
+                    var temp = document.createElement("div");
+                    temp.style.cssText = "position: absolute; left: 0; top: 0;";
+                    document.body.appendChild(temp);
+                    arguments.callee.offset = -temp.getBoundingClientRect().top - scrollTop;
+                    document.body.removeChild(temp);
+                    temp = null;
+                }
+
+                var rect = element.getBoundingClientRect();
+                var offset = arguments.callee.offset;
+
+                return {
+                    left: rect.left + offset,
+                    right: rect.right + offset,
+                    top: rect.top + offset,
+                    bottom: rect.bottom + offset
+                };
+            }else{
+                var actualLeft = getElementLeft(element);
+                var actualTop = getElementTop(element);
+
+                return {
+                    left: actualLeft - scrollLeft,
+                    right: actualLeft + element.offsetWidth - scrollLeft,
+                    top: actualTop - scrollTop,
+                    bottom: actualTop + element.offsetHeight - scrollTop
+                }
+            }
+        }
+
+        //bottom与right的值有些奇怪
+        console.log(getBoundingClientRect(test));
+    </script>
+</body>
+</html>
