@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DOMRange</title>
+</head>
+<body>
+    <p id="p1"><b>Hello</b> world!</p> <p id="p2"></p>
+    <script>
+        var range1 = document.createRange(),
+            range2 = document.createRange(),
+            p1 = document.getElementById("p1");
+        range1.selectNode(p1);
+        range2.selectNodeContents(p1);
+        console.log(range1);
+        console.log(range2);
+
+        //展示setStart与setEnd用法
+        //参数：一个参照节点和一个偏移量值
+        var helloNode = p1.firstChild.firstChild;
+        var worldNode = p1.lastChild;
+        var range = document.createRange();
+        range.setStart(helloNode, 2);
+        range.setEnd(worldNode, 3);
+        console.log(range.toString());
+
+        //删除范围所包含的内容
+//        console.log(range.deleteContents());
+//        console.log(range.extractContents());
+        var fragment = range.extractContents();
+        p1.parentNode.appendChild(fragment);
+
+        var span = document.createElement("span");
+        span.style.color = "red";
+        span.appendChild(document.createTextNode("Inserted text"));
+        range.insertNode(span);
+
+        range.selectNode(helloNode);
+        var span1 = document.createElement("span");
+        span1.style.backgroundColor = "yellow";
+        range.surroundContents(span1);
+
+        //折叠DOM范围(不太明白)
+
+        range.collapse(true);
+        console.log(range.collapsed);
+
+        //判断量元素是否紧密相连，可判断动态生成的DOM
+        var p2 = document.getElementById("p2");
+        var range3 = document.createRange();
+        range3.setStartAfter(p1);
+        range3.setEndBefore(p2);
+        console.log(range3.collapsed);
+
+        //比较DOM范围
+        var range4 = document.createRange();
+        var range5 = document.createRange();
+
+        range4.selectNodeContents(p1);
+        range5.selectNodeContents(p1);
+        range5.setEndBefore(p1.lastChild);
+
+        console.log(range4.compareBoundaryPoints(Range.START_TO_START, range5));
+        console.log(range4.compareBoundaryPoints(Range.END_TO_END, range5));
+
+    </script>
+</body>
+</html>
