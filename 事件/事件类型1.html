@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>test</title>
+</head>
+<body onunload="alert('Unloaded!')">
+    <p>aaa</p>
+    <div id="myDiv">bbbb</div>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <script src="EventUtil.js"></script>
+    <script>
+        EventUtil.addHandler(window, "resize", function(event){
+            console.log("Resized");
+        });
+
+        EventUtil.addHandler(window, "scroll", function(event){
+            if (window.pageYOffset) {
+                console.log("pageYOffset:" + window.pageYOffset);
+            }else if(document.compatMode && document.compatMode != 'BackCompat'){
+                console.log("documentElement:" + document.documentElement.scrollTop);
+            }else{
+                console.log("body:" + document.body.scrollTop);
+            }
+        });
+
+        var div = document.getElementById("myDiv");
+        EventUtil.addHandler(div, "click", function(event){
+            event = EventUtil.getEvent(event);
+            var keys = [];
+
+            if(event.shiftKey){
+                keys.push("shift");
+            }
+
+            if(event.ctrlKey){
+                keys.push("ctrl");
+            }
+
+            if(event.altKey){
+                keys.push("alt");
+            }
+
+            if(event.metaKey){
+                keys.push("meta");
+            }
+
+            console.log("Keys: " + keys.join(","));
+        });
+    </script>
+</body>
+</html>
