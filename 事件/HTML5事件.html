@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HTML5事件</title>
+</head>
+<body>
+    <div id="myDiv">
+        右键单击或者ctrl+单击我获得一个上下文菜单。<br/>点击任何其他的地方获取默认上下文菜单。
+    </div>
+    <ul id="myMenu" style="position: absolute; visibility: hidden; background-color: silver;">
+        <li><a href="http://www.baidu.com">百度</a></li>
+        <li><a href="http://www.sina.com">新浪</a></li>
+        <li><a href="http://www.yahoo.com">雅虎</a></li>
+    </ul>
+    <script src="EventUtil.js"></script>
+    <script>
+        EventUtil.addHandler(window, "load", function(event){
+            var div = document.getElementById("myDiv");
+
+            EventUtil.addHandler(div, "contextmenu", function(event){
+                event = EventUtil.getEvent(event);
+                EventUtil.preventDefault(event);
+
+                var menu = document.getElementById("myMenu");
+                menu.style.left = event.clientX + "px";
+                menu.style.top = event.clientY + "px";
+                menu.style.visibility = "visible";
+            });
+
+            EventUtil.addHandler(document, "click", function(event){
+                document.getElementById("myMenu").style.visibility = "hidden";
+            });
+        });
+
+//不知是否有错，测试不管用
+//        (function(){
+//            var showCount = 0;
+//
+//            EventUtil.addHandler(window, "load", function(){
+//                console.log("Load fired");
+//            });
+//
+//            EventUtil.addHandler(window, "pageshow", function(event){
+//                showCount++;
+//                console.log(event.persisted);
+//                console.log("Show has been fired " + showCount + " times.");
+//            });
+//        })();
+    </script>
+</body>
+</html>
