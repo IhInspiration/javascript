@@ -7,5 +7,13 @@
 <body>
     <button id="myBtn">事件点击</button>
     <script src="EventUtil.js"></script>
+    <script>
+         var btn = document.getElementById("myBtn");
+         var handler = function(){
+             console.log("clicked");
+         };
+         EventUtil.addHandler(btn, "click", handler);
+//         EventUtil.removeHandler(btn, "click", handler);
+    </script>
 </body>
 </html>
