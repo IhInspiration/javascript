@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>富文本编辑</title>
+</head>
+<body>
+    <iframe name="richedit" style="height: 100px; width: 100px;" src="blank.html"></iframe>
+    <button id="bold">加粗</button>
+    <button id="italic">斜体</button>
+    <button id="font5">5号字体</button>
+    <script src="../事件/EventUtil.js"></script>
+    <script type="text/javascript">
+        EventUtil.addHandler(window, "load", function(){
+            frames["richedit"].document.designMode = "on";
+        });
+
+        var bold = document.getElementById("bold");
+        var italic = document.getElementById("italic");
+        var font5 = document.getElementById("font5");
+
+        EventUtil.addHandler(bold, "click", function(){
+            //检查是否可以针对当前文本执行某个命令
+            var result = frames["richedit"].document.queryCommandEnabled("bold");
+            console.log(result);
+            frames["richedit"].document.execCommand("bold", false, null);
+        });
+
+        EventUtil.addHandler(font5, "click", function(){
+            frames["richedit"].document.execCommand("fontSize", false, 5);
+        });
+
+        EventUtil.addHandler(italic, "click", function(){
+            var result = frames["richedit"].document.queryCommandEnabled("italic");
+            console.log(result);
+
+            //用于确定是否已将指定命令应用到了选择的文本
+            var isBold = frames["richedit"].document.queryCommandState("bold");
+            console.log(isBold);
+
+            //用于取得执行命令时传入的值
+            var fontSize = frames["richedit"].document.queryCommandValue("fontSize");
+            console.log(fontSize);
+
+            frames["richedit"].document.execCommand("italic", false, null);
+        });
+    </script>
+</body>
+</html>
