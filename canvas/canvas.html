@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>canvas</title>
+</head>
+<body>
+    <canvas id="drawing" width="300" height="300">A drawing of something.</canvas>
+    <canvas id="drawing1" width="300" height="300">A drawing1 of something.</canvas>
+    <script>
+        var drawing = document.getElementById("drawing");
+
+        if(drawing.getContext){
+            var context = drawing.getContext("2d");
+
+            //创建渐变
+            var gradient = context.createLinearGradient(30, 30, 70, 70);
+            gradient.addColorStop(0, "white");
+            gradient.addColorStop(1, "rgba(0, 0, 255, 0.5)");
+
+            //设置阴影
+            context.shadowOffsetX = 5;
+            context.shadowOffsetY = 5;
+            context.shadowBlur = 4;
+            context.shadowColor = "rgba(0, 0, 0, 0.5)";
+
+            //填充矩形
+            context.fillStyle = "#ff0000";
+            context.fillRect(10, 10, 50, 50);
+
+//            context.fillStyle = "rgba(0, 0, 255, 0.5)";
+            context.fillStyle = gradient;
+            context.fillRect(30, 30, 50, 50);
+
+            //描边矩形
+            context.strokeStyle = "#ff0000";
+            context.strokeRect(110, 110, 50, 50);
+
+            context.strokeStyle = "rgba(0, 0, 255, 0.5)";
+            context.strokeRect(130, 130, 50, 50);
+
+            //清除矩形
+            context.clearRect(40, 40, 10, 10);
+
+            //取得图像的数据URI
+            var imgURI = drawing.toDataURL("image/png");
+
+            //显示图像
+            var image = document.createElement("img");
+            image.src = imgURI;
+            document.body.appendChild(image);
+        }
+
+        var drawing1 = document.getElementById("drawing1");
+
+        if(drawing1.getContext){
+            var context1 = drawing1.getContext("2d");
+
+            //开始路径
+            context1.beginPath();
+
+            //绘制外圆
+            context1.arc(100, 100, 99, 0, 2 * Math.PI, false);
+
+            //绘制内圆
+            context1.moveTo(194, 100);
+            context1.arc(100, 100, 94, 0, 2 * Math.PI, false);
+
+            //绘制分针
+            context1.moveTo(100, 100);
+            context1.lineTo(100, 15);
+
+            //绘制时针
+            context1.moveTo(100, 100);
+            context1.lineTo(35, 100);
+
+            //描边路径
+            context1.stroke();
+
+            context1.font = "bold 14px Arial";
+            context1.textAlign = "center";
+            context1.textBaseline = "middle";
+            context1.fillText("12", 100, 20);
+        }
+    </script>
+</body>
+</html>

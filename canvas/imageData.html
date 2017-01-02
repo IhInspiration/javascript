@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>imageData</title>
+</head>
+<body>
+    <canvas id="drawing" width="300" height="300">Get ImgData</canvas>
+    <script>
+        //图像灰阶滤镜
+        var drawing = document.getElementById("drawing");
+
+        if(drawing.getContext){
+            var context = drawing.getContext("2d"),
+                image = new Image(),
+                imageData, data, i, len, average, red, green, blue, alpha;
+
+            image.src = "image.png";
+
+            image.onload = function(){
+                //绘制原始图像
+                context.drawImage(image, 0, 0, 300, 300);
+
+                //取得图像数据
+                imageData = context.getImageData(0, 0, image.width, image.height);
+                data = imageData.data;
+
+                for(i = 0, len = data.length; i < len; i+=4){
+                    red = data[i];
+                    green = data[i + 1];
+                    blue = data[i + 2];
+                    alpha = data[i + 3];
+
+                    //求得rgb平均值
+                    average = Math.floor((red + green + blue) / 3);
+
+                    //设置颜色值
+                    data[i] = average;
+                    data[i + 1] = average;
+                    data[i + 2] = average;
+                }
+
+                imageData.data = data;
+                context.putImageData(imageData, 0, 0);
+            };
+
+
+        }
+    </script>
+</body>
+</html>
