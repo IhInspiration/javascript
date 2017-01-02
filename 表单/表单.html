@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>表单脚本</title>
+</head>
+<body>
+    <form>
+        <input type="text" value="默认值" id="input"/>
+    </form>
+    <script src="../事件/EventUtil.js"></script>
+    <script>
+        var textbox = document.forms[0].elements[0];
+
+        EventUtil.addHandler(textbox, "focus", function(event){
+            event = EventUtil.getEvent(event);
+            var target = EventUtil.getTarget(event);
+
+            if(target.style.backgroundColor != "red"){
+                target.style.backgroundColor = "yellow";
+            }
+        });
+
+        EventUtil.addHandler(textbox, "blur", function(event){
+            event = EventUtil.getEvent(event);
+            var target = EventUtil.getTarget(event);
+
+            if(/[^\d]/.test(target.value)){
+                target.style.backgroundColor = "red";
+            }else{
+                target.style.backgroundColor = "";
+            }
+        });
+
+        //input和textarea，在他们是去焦点且value值发生改变时触发，对于select，在其选项改变时触发
+        EventUtil.addHandler(textbox, "change", function(event){
+            event = EventUtil.getEvent(event);
+            var target = EventUtil.getTarget(event);
+
+            if(/[^\d]/.test(target.value)){
+                target.style.backgroundColor = "red";
+            }else{
+                target.style.backgroundColor = "";
+            }
+        });
+
+        //选择事件
+        EventUtil.addHandler(textbox, "select", function(event){
+            console.log("文本选择:" + textbox.value);
+            console.log("取得选择文本：" + textbox.value.substring(textbox.selectionStart, textbox.selectionEnd));
+//            console.log("取得选择文本：" + document.selection.createRange().text);//IE8及之前版本
+        });
+
+        textbox.select();
+
+        textbox.value = "Hello world";
+
+        textbox.setSelectionRange(0, textbox.value.length);
+        textbox.setSelectionRange(0, 3);
+        textbox.setSelectionRange(4, 7);
+
+        //跨浏览器文本选择
+        function selectText(textbox, startIndex, stopIndex) {
+            if (textbox.setSelectionRange) {
+                textbox.setSelectionRange(startIndex, stopIndex);
+            } else if (textbox.createTextRange) {
+                //<=IE8
+                var range = textbox.createTextRange();
+                range.collapse(true);
+                range.moveStart("character", 0);
+                range.moveEnd("character", stopIndex - startIndex);
+                range.select();
+            }
+        }
+
+        //粘贴事件
+        EventUtil.addHandler(textbox, "paste", function(event){
+            event = EventUtil.getEvent(event);
+            var text = EventUtil.getClipboardText(event);
+
+            if(!/^\d*$/.test(text)){
+                EventUtil.preventDefault(event);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>触摸手势事件</title>
+</head>
+<body>
+<div id="output"></div>
+<div id="output1" style="color: red"></div>
+<script src="EventUtil.js"></script>
+<script>
+    function handleTouchEvent(event){
+        if(event.touches.length == 1){
+            var output = document.getElementById("output");
+            switch(event.type){
+                case "touchstart":
+                    output.innerHTML = "Touch started (" +
+                            event.touches[0].clientX + "," +
+                            event.touches[0].clientY + ")";
+                    break;
+                case "touchend":
+                    output.innerHTML += "<br>Touch ended (" +
+                            event.changedTouches[0].clientX + "," +
+                            event.changedTouches[0].clientY + ")";
+                    break;
+                case "touchmove":
+                    event.preventDefault();
+                    output.innerHTML += "<br>Touch moved (" +
+                            event.changedTouches[0].clientX + "," +
+                            event.changedTouches[0].clientY + ")";
+                    break
+            }
+        }
+    }
+    EventUtil.addHandler(document, "touchstart", handleTouchEvent);
+    EventUtil.addHandler(document, "touchend", handleTouchEvent);//有时候好像不触发
+    EventUtil.addHandler(document, "touchmove", handleTouchEvent);
+
+    //ios支持(手势操作)
+    function handleGestureEvent(event){
+        var output1 = document.getElementById("output1");
+        switch(event.type){
+            case "gesturestart":
+                output1.innerHTML = "Gesture started (rotation=" + event.rotation + ",scale=" + event.scale + ")";
+                break;
+            case "gestureend":
+                output1.innerHTML += "<br>Gesture ended (rotation=" + event.rotation + ",scale=" + event.scale + ")";
+                break;
+            case "gesturechange":
+                output1.innerHTML += "<br>Gesture changed (rotation=" + event.rotation + ",scale=" + event.scale + ")";
+                break;
+        }
+    }
+
+    document.addEventListener("gesturestart", handleGestureEvent, false);
+    document.addEventListener("gestureend", handleGestureEvent, false);
+    document.addEventListener("gesturechange", handleGestureEvent, false);
+</script>
+</body>
+</html>
