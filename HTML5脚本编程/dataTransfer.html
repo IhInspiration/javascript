@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>dataTransfer</title>
+</head>
+<body>
+<div style="width: 100px;height: 100px;" id="drag">拖放元素</div>
+<div id="target" style="width: 100px;height: 100px;"></div>
+<script src="../事件/EventUtil.js"></script>
+<script>
+
+    EventUtil.addHandler(document.getElementById("upload"), "change", function(e){
+        console.log(e.target.files[0]);
+    });
+
+    var div = document.getElementById("drag");
+
+    EventUtil.addHandler(div, "dragenter", function(event){
+        event.stopPropagation();
+        event.preventDefault();
+    });
+
+    EventUtil.addHandler(div, "dragover", function(event){
+        event.stopPropagation();
+        event.preventDefault();
+    });
+
+    EventUtil.addHandler(div, "drop", function(event){
+
+        event.stopPropagation();
+        event.preventDefault();
+
+        var dataTransfer = event.dataTransfer;
+        console.log(dataTransfer.dropEffect);
+        console.log(dataTransfer.effectAllowed);
+
+        var url = dataTransfer.getData("url") || dataTransfer.getData("text/uri-list");
+
+        var text = dataTransfer.getData("Text");
+
+        console.log(url, text);
+
+        file = dataTransfer.files[0];
+
+        var reader = new FileReader();
+        reader.onload = function(){
+            console.log(reader.result);//可读取到图片信息
+        };
+        reader.readAsDataURL(file);
+    });
+
+</script>
+</body>
+</html>
