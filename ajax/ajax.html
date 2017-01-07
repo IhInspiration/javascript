@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ajax</title>
+</head>
+<body>
+    <script src="../表单/formSerialize.js"></script>
+    <script>
+        function addURLParam(url, name, value){
+            url += (url.indexOf("?") == -1 ? "?" : "&");
+            url += encodeURIComponent(name) + "=" + encodeURIComponent(value);
+            return url;
+        }
+
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function(){
+            if(xhr.readyState == 4){
+                if((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304){
+                    console.log(xhr.responseText);
+                }else{
+                    console.log("Request was unsuccessful: " + xhr.status);
+                }
+            }
+        };
+//        var url = "example.php";
+//
+//        url = addURLParam(url, "name", "JackWang");
+//        url = addURLParam(url, "book", "javascript");
+//        url = addURLParam(url, "test", "测试");
+
+//        xhr.open("GET", url, true);
+//        xhr.setRequestHeader("MyHeader", "MyValue");
+//        xhr.send(null);
+
+//        POST请求串值
+//        xhr.open("POST", "postexample.php", true);
+//        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+//        var form = document.getElementById("user-info");
+//        xhr.send(serialize(form));
+
+        //FormData用法
+        var data = new FormData();
+        data.append("name", "JackWang");
+        xhr.open("GET", "postexample.php", true);
+        xhr.send(data);
+    </script>
+</body>
+</html>
