@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>xml</title>
+</head>
+<body>
+    <script>
+        //FF,Opera,
+//        var xmldom = document.implementation.createDocument("", "", null);
+//        xmldom.async = true;
+//        xmldom.load("example.xml");
+//        console.log(xmldom);
+
+        //chrome
+        var xmldom = new window.XMLHttpRequest();
+        xmldom.open("GET", "example.xml", true);
+        xmldom.onreadystatechange = function(){
+            if(xmldom.readyState == 4){
+                console.log(xmldom.responseXML);
+            }
+        };
+        xmldom.send(null);
+
+
+//        xmldom = xmlhttp.responseXML.documentElement;
+//        console.log(xmldom);
+
+        //IE支持如下操作
+//        var xmldom = createDocument();
+//        xmldom.async = true;
+//
+//        xmldom.onreadystatechange = function(){
+//            if(xmldom.readyState == 4){
+//                if(xmldom.parseError != 0){
+//                    console.log("An error occurred: \nError Code: "
+//                            + xmldom.parseError.errorCode + "\n"
+//                            + "Line:" + xmldom.parseError.line + "\n"
+//                            + "Line Pos:" + xmldom.parseError.linepos + "\n"
+//                            + "Reason:" + xmldom.parseError.reason
+//                    );
+//                }else{
+//                    console.log(xmldom.documentElement.tagName);
+//                    console.log(xmldom.documentElement.firstChild.tagName);
+//
+//                    var anotherChild = xmldom.createElement("child");
+//                    xmldom.documentElement.appendChild(anotherChild);
+//
+//                    var children = xmldom.getElementsByTagName("child");
+//                    console.log(children.length);
+//
+//                    console.log(xmldom.xml);
+//                }
+//
+//            }
+//        };
+//
+//        xmldom.load("example.xml");
+//
+//        function createDocument(){
+//            if(typeof arguments.callee.activeXString != "string"){
+//                var versions = ["MSXML2.DOMDocument.6.0", "MSXML2.DOMDocument.3.0", "MSXML2.DOMDocument"], i, len;
+//                for(i = 0, len = versions.length; i < len; i++){
+//                    try{
+//                        new ActiveXObject(versions[i]);
+//                        arguments.callee.activeXString = versions[i];
+//                        break;
+//                    }catch(ex){
+//
+//                    }
+//                }
+//            }
+//            return new ActiveXObject(arguments.callee.activeXString);
+//        }
+    </script>
+</body>
+</html>
