@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>cookeExample</title>
+</head>
+<body>
+    <script src="../事件/EventUtil.js"></script>
+    <script src="CookieUtil.js"></script>
+    <script>
+        CookieUtil.set("name", "JackWang");
+        CookieUtil.set("campus", "sylg university");
+
+        console.log(CookieUtil.get("name"));
+        console.log(CookieUtil.get("campus"));
+
+        CookieUtil.unset("name");
+        CookieUtil.unset("book");
+    </script>
+</body>
+</html>
