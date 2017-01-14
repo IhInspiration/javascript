@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>节流模式</title>
+</head>
+<body>
+    <div id="myDiv"></div>
+    <script>
+        function throttle(method, context){
+            console.log(method.tId);
+            clearTimeout(method.tId);
+            method.tId = setTimeout(function(){
+                method.call(context);
+            }, 100);
+        }
+
+        function resizeDiv(){
+            var div = document.getElementById("myDiv");
+            div.style.height = div.offsetWidth + "px";
+        }
+
+        window.onresize = function(){
+            throttle(resizeDiv);
+        };
+    </script>
+</body>
+</html>

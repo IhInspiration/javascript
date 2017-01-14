@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>bind</title>
+</head>
+<body>
+    <button id="my-btn">点击</button>
+    <script src="../事件/EventUtil.js"></script>
+    <script>
+        function bind(fn, context){
+            return function(){
+                return fn.apply(context, arguments);
+            };
+        }
+
+        var handler = {
+            message: "Event handled",
+
+            handleClick: function(event){
+                console.log(this.message + ":" + event.type);
+            }
+        };
+
+        var btn = document.getElementById("my-btn");
+        EventUtil.addHandler(btn, "click", bind(handler.handleClick, handler));
+        //                   EventUtil.addHandler(btn, "click", handler.handleClick.bind(handler));//ECMAScript原生
+
+    </script>
+</body>
+</html>
