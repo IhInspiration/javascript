@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>file API</title>
+</head>
+<body>
+    <input type="file" name="test" id="files-list" multiple="multiple"/>
+    <p id="progress"></p>
+    <p id="output"></p>
+    <script src="../事件/EventUtil.js"></script>
+    <script>
+        var filesList = document.getElementById("files-list");
+//        示例1
+//        EventUtil.addHandler(filesList, "change", function(event){
+//            var files = EventUtil.getTarget(event).files,
+//                i = 0,
+//                len = files.length;
+//            while(i < len){
+//                console.log(files[i].name + " (" + files[i].type + ", " + files[i].size + " bytes) ");
+//                i++;
+//            }
+//        });
+
+        //示例2
+        EventUtil.addHandler(filesList, "change", function(event){
+            var info = "",
+                output = document.getElementById("output"),
+                progress = document.getElementById("progress"),
+                files = EventUtil.getTarget(event).files,
+                type = "default",
+                reader = new FileReader();
+
+            if(/image/.test(files[0].type)){
+                reader.readAsDataURL(files[0]);
+                type = "image";
+            }else{
+                reader.readAsText(files[0]);
+                type = "text";
+            }
+
+            reader.onerror = function(){
+                output.innerHTML = "不能读取文件，错误码：" + reader.error.code;
+            };
+
+            reader.onprogress = function(event){
+                //检测进度信息是否可用
+                if(event.lengthComputable){
+                    progress.innerHTML = (event.loaded / event.total * 100).toFixed(2) + "%";
+                }
+            };
+
+            reader.onload = function(){
+                var html = "";
+                switch(type){
+                    case "image":
+                        html = "<img src=\"" + reader.result + "\">";
+                        break;
+                    case "text":
+                        html = reader.result;
+                        break;
+                }
+                output.innerHTML = html;
+            };
+        });
+    </script>
+</body>
+</html>

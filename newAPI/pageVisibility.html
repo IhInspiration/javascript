@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>page visibility</title>
+</head>
+<body>
+    <p id="output"></p>
+    <script src="../事件/EventUtil.js"></script>
+    <script>
+        function isHiddenSupported(){
+            return typeof (document.hidden || document.msHidden || document.webkitHidden) != "undefined";
+        }
+
+        console.log(isHiddenSupported());
+
+        function handleVisibilityChange(){
+            var output = document.getElementById("output"),
+                msg;
+            if(document.hidden || document.msHidden || document.webkitHidden){
+                msg = "Page is now hidden. " + (new Date()) + "<br>";
+            }else{
+                msg = "Page is now visible. " + (new Date()) + "<br>";
+                alert("刚刚退出页面");
+            }
+            output.innerHTML += msg;
+        }
+
+        EventUtil.addHandler(document, "msvisibilitychange", handleVisibilityChange);
+        EventUtil.addHandler(document, "webkitvisibilitychange", handleVisibilityChange);
+    </script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>file API:读取一部分内容</title>
+</head>
+<body>
+    <input type="file" name="test" id="files-list" multiple="multiple"/>
+    <p id="progress"></p>
+    <p id="output"></p>
+    <script src="../事件/EventUtil.js"></script>
+    <script>
+        function blobSlice(blob, startByte, length){
+            if(blob.slice){
+                return blob.slice(startByte, length);
+            }else if(blob.webkitSlice){
+                return blob.webkitSlice(startByte, length);
+            }else if(blob.mozSlice){
+                return blob.mozSlice(startByte, length);
+            }else{
+                return null;
+            }
+        }
+
+        var filesList = document.getElementById("files-list");
+        EventUtil.addHandler(filesList, "change", function(event){
+            var info = "",
+                output = document.getElementById("output"),
+                progress = document.getElementById("progress"),
+                files = EventUtil.getTarget(event).files,
+                type = "default",
+                reader = new FileReader(),
+                blob = blobSlice(files[0], 0, 32);
+
+            if(blob){
+                reader.readAsText(blob);
+
+                reader.onerror = function(){
+
+                };
+
+                reader.onload = function () {
+                    output.innerHTML = reader.result;
+                }
+            }else{
+
+            }
+        });
+    </script>
+</body>
+</html>
